@@ -1,5 +1,13 @@
 # Azure DevOps Implementation Status
 
+## Foundation synchronization prepared on 2026-08-03
+
+- The repository documentation was confirmed as the authoritative source.
+- [`azure-devops/backlog-sync.csv`](../azure-devops/backlog-sync.csv) now contains a 65-row in-place update for Azure IDs `2`–`66`.
+- The update preserves the existing IDs, creates the full Epic → Feature → User Story hierarchy through `Title 1`/`Title 2`/`Title 3`, and fills story Acceptance Criteria, Story Points, Priority, requirements in the description, area, iteration and tags.
+- [`azure-devops/Generate-BacklogSync.ps1`](../azure-devops/Generate-BacklogSync.ps1) deterministically regenerates and validates the update file from the source backlog documents.
+- The Azure import is prepared but not yet applied. Browser file upload is paused until Chrome grants the ChatGPT extension access to file URLs; keep the hierarchy note below in force until the import is saved and verified.
+
 ## Completed on 2026-08-03
 
 - Converted the `MGParts` Azure DevOps project from the Basic process to Agile.
@@ -47,4 +55,4 @@ This does not affect story content, prioritization, area path, estimates or acce
 
 ## Suggested completion method
 
-Use [backlog-import.csv](../azure-devops/backlog-import.csv) as the source-controlled backup. If importing into the existing project, use stable references in titles to match items rather than creating duplicates, then verify that every Feature has one Epic parent and every User Story has one Feature parent.
+Use [backlog-import.csv](../azure-devops/backlog-import.csv) as the original source-controlled creation backup. Use [backlog-sync.csv](../azure-devops/backlog-sync.csv) for the existing project because it includes Azure IDs and updates items in place. After import, verify that every Feature has one Epic parent, every User Story has one Feature parent, and IDs `2`–`66` remain the only scoped MVP items.

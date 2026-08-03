@@ -1,6 +1,6 @@
-# MG Parts Business Analysis Package
+# MG Parts Learning Store
 
-This repository contains the requirements and Azure Boards backlog for a deliberately testable MG spare-parts MVP serving Egypt and the United Kingdom.
+This repository contains the requirements, delivery plan, and implementation of an unofficial educational MG spare-parts demonstration serving synthetic Egypt and United Kingdom scenarios.
 
 ## Recommendation
 
@@ -15,6 +15,8 @@ Use Skoda-Parts.com as a **behavioral benchmark**, not as a close replica. A rep
 - Customer journey: anonymous browse, search, product review, cart, checkout, order confirmation, and order lookup.
 - Catalog: a deliberately small, representative MG fixture catalog rather than a production-scale catalog.
 - Customer accounts, VIN decoding, online payment, returns processing, reviews, promotions, and live carrier/tax/FX integrations are deferred.
+- The project uses original demonstration content, no official MG logo, and no real customer/order data.
+- The planned runtime is Java 26 with Spring Boot 4.1.x, deployed to Google Cloud Run with Neon PostgreSQL.
 
 ## Documents
 
@@ -28,6 +30,7 @@ Use Skoda-Parts.com as a **behavioral benchmark**, not as a close replica. A rep
 8. [Azure Boards backlog](docs/08-azure-boards-backlog.md)
 9. [Requirements traceability matrix](docs/09-traceability-matrix.md)
 10. [Azure DevOps implementation status](docs/10-azure-devops-status.md)
+11. [Implementation plan and progress](docs/11-implementation-plan.md)
 
 ## Azure DevOps
 
@@ -51,3 +54,7 @@ The work-item titles carry stable BA references (`E01`, `F01`, `US001`, and so o
 | FX rates | Versioned test configuration | Deterministic prices are essential for repeatable automated and agent evaluations. |
 | Shipping and tax | Configurable dummy policies | Real policies are unknown; invented values must never be represented as production rules. |
 | AI readiness | Built into the MVP | Stable APIs, fixtures, provenance, reset hooks, and knowledge versions enable repeatable agent and RAG tests. |
+| Product identity | Unofficial `MG Parts Lab` educational demonstration | Avoids any claim of affiliation and uses original or properly licensed content without an official MG logo. |
+| Runtime | Java 26 with Spring Boot 4.1.x | Matches the approved Java-first direction and a stable framework version that supports Java 26. |
+| Hosting | Google Cloud Run with Neon PostgreSQL | Provides managed scale-to-zero application hosting and durable external relational storage. |
+| Delivery | One branch and PR per Azure Feature, plus one foundation PR | Keeps review boundaries clear and enables story-level phases within larger features. |

@@ -31,7 +31,7 @@
 
 | ID | Risk | Probability / impact | Mitigation / owner decision |
 |---|---|---|---|
-| R-01 | MG trademarks, catalog text or images are used without permission. | Medium / High | Use original demo content and generic imagery until rights are confirmed. Product owner. |
+| R-01 | MG trademarks, catalog text or images are used without permission. | Low / High | Approved boundary: unofficial educational identity, no official logo, original copy, original or properly licensed generic imagery, and recorded asset provenance. |
 | R-02 | Unknown tax/shipping values are mistaken for real policy. | High / High | Prominent demo labeling, versioned fixture rules, production launch blocked pending legal/commercial confirmation. |
 | R-03 | Multi-currency rounding causes UI/API/order mismatch. | Medium / High | Integer minor units, decimal rates, single rounding boundary and property-based tests. |
 | R-04 | Arabic translation or RTL defects make critical flows unusable. | Medium / High | Translation completeness CI, native review when available, accessibility/visual matrix. |
@@ -44,17 +44,17 @@
 | R-11 | Azure process conversion leaves the pre-existing Basic Issue/board mapping inconsistent. | Medium / Low | Keep the test Issue outside MVP, validate Agile backlog levels, manually retire/convert item 1 if needed. |
 | R-12 | Backlog scope is too large for an MVP. | Medium / Medium | Preserve the four delivery waves; defer Priority 2 items only with documented impact on test value. |
 
-## Open questions / decisions before implementation
+## Resolved implementation decisions
 
-1. Confirm the initial MG model/year/engine fixture list for Egypt and the UK.
-2. Confirm whether the demo will be publicly hosted and what trademark/content permissions apply.
-3. Approve explicit fictional tax/shipping/FX seed values and the visual “demonstration data” label.
-4. Choose the technology stack and deployment target; requirements remain technology-neutral.
-5. Decide whether the optional assistant endpoint is implemented in the first release or only the RAG corpus/retrieval/evaluation layer.
-6. Choose the order-lookup verification field for synthetic testing (for example email or phone suffix) without creating weak production guidance.
-7. Confirm retention and reset cadence for demonstration orders.
+1. Initial synthetic families: MG3, MG4 EV, MG5, ZS, ZS EV and HS with representative Egypt/UK test variants.
+2. Public identity: unofficial educational demonstration using original content, generic licensed/original imagery and no official MG logo.
+3. Policy data: explicitly fictional versioned tax, shipping and FX seed values with visible demonstration labels.
+4. Stack and deployment: Java 26, Spring Boot 4.1.x modular monolith, Thymeleaf/HTMX, PostgreSQL, Google Cloud Run and Neon.
+5. AI scope: implement corpus, retrieval and evaluation; defer the optional generative assistant until commerce is stable.
+6. Order lookup: order reference plus email with generic failures, throttling and masking.
+7. Retention: authorized manual reset plus automated nightly reset for demonstration orders.
+8. Operations: protected import/API first; graphical administration is deferred.
 
 ## Release acceptance summary
 
 The MVP is acceptable when Priority 1 stories are complete, the anonymous COD path passes in all four market/language combinations (`EG-ar`, `EG-en`, `GB-en`, `GB-ar`), price/order math is reproducible, the environment resets deterministically, critical accessibility/security defects are closed and the first RAG golden run is reproducible with valid citations and abstentions.
-

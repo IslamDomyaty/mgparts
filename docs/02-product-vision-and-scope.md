@@ -76,6 +76,10 @@ The MVP should seed 4–6 MG models spanning both markets, 8–12 categories, 80
 - light, heavy and oversize shipping examples;
 - missing Arabic translation and stale-knowledge records in a separate negative-test fixture, never the default fixture.
 
+### Approved initial vehicle fixture
+
+The initial synthetic families are MG3, MG4 EV, MG5, ZS, ZS EV and HS. They use representative demonstration year/engine variants scoped to Egypt and the UK. These records exist for repeatable fitment tests and are not authoritative vehicle or safety guidance. Exact stable IDs and fitment combinations are finalized with F03 and F05.
+
 ## High-level sitemap
 
 ```mermaid
@@ -95,10 +99,11 @@ flowchart TD
     D --> H
 ```
 
-## Assumptions requiring business confirmation before production
+## Approved demonstration and publishing boundary
 
-- The application is a learning/demonstration system and does not take real orders or real cash.
-- Seed shipping and tax values are fictional configuration, not legal or commercial advice.
-- Prices and FX rates are fixture data and are clearly marked as demonstration values.
-- The right to use MG trademarks, vehicle data and product imagery must be established before any public production launch.
-
+- The application is a learning/demonstration system and does not take real orders, real cash, payment credentials or real customer data.
+- Seed shipping, tax, FX, price, stock and fitment values are fictional versioned configuration, not legal, commercial or safety advice.
+- The public experience identifies itself as an unofficial educational demonstration and labels fictional data clearly.
+- The project does not use an official MG logo, copied proprietary catalogs or copied commerce content.
+- Interface copy and imagery are original or properly licensed generic assets. External assets require recorded provenance and license information.
+- Public deployment uses Google Cloud Run with Neon PostgreSQL and must have cost controls and no persistent dependence on a container filesystem.
