@@ -10,7 +10,7 @@ This document is the persistent delivery handoff for MG Parts. It records approv
 |---|---|
 | Active phase | F01 — Market, language and currency context (US001–US003) |
 | Active branch | `codex/f01-market-context` |
-| Status | Implementation complete and locally verified — draft PR #2 open, CI pending |
+| Status | Implementation complete and locally verified — draft PR #2 open, CI retry pending after wrapper-mode fix |
 | Base | Freshly fetched `origin/main` at `9a57683c` (merged foundation PR #1) |
 | Azure references | Feature F01 / ID 9; US001–US003 / IDs 26–28 |
 | Pull request | Draft PR [#2](https://github.com/IslamDomyaty/mgparts/pull/2); implementation commit `75a5465` |
@@ -102,7 +102,7 @@ Each feature ends with local verification, a pushed feature branch, a pull reque
 | Order | Feature / stories | Branch | Complete working increment | Dependencies | Status |
 |---:|---|---|---|---|---|
 | 0 | Project foundation | `codex/project-foundation` | Approved architecture, plan/handoff, repo guidance, synchronized backlog | None | Complete — PR #1 merged |
-| 1 | F01 / US001–US003 | `codex/f01-market-context` | Runnable store shell with persistent market, language, and display-currency context | Foundation | Draft PR #2 open — CI pending |
+| 1 | F01 / US001–US003 | `codex/f01-market-context` | Runnable store shell with persistent market, language, and display-currency context | Foundation | Draft PR #2 open — CI retry pending |
 | 2 | F02 / US004–US005 | `codex/f02-rtl-accessible-storefront` | Responsive, keyboard-usable English/Arabic shell with correct RTL behavior | F01 | Waiting |
 | 3 | F15 / US036–US037 | `codex/f15-api-security-contracts` | OpenAPI/error/security/privacy baseline protecting later endpoints | F01 | Waiting |
 | 4 | F03 / US006–US007 | `codex/f03-vehicle-context` | Persistent synthetic model/year/engine selector and safe context changes | F01, F15 | Waiting |
@@ -129,7 +129,7 @@ Each feature ends with local verification, a pushed feature branch, a pull reque
 | Azure scope | F01 / ID 9; US001 / ID 26; US002 / ID 27; US003 / ID 28 |
 | Story phase | US001–US003 implementation complete; negative cases, stable test IDs, event diagnostics and context OpenAPI included |
 | Tests | `.\mvnw.cmd -B -ntp verify` passed on Java 26: 16 unit/contract plus 7 integration tests; browser-rendered state changes also verified |
-| Pull request / CI | Implementation commit `75a5465` pushed; draft PR [#2](https://github.com/IslamDomyaty/mgparts/pull/2) open; CI pending for the final handoff state |
+| Pull request / CI | Implementation commit `75a5465` pushed; draft PR [#2](https://github.com/IslamDomyaty/mgparts/pull/2) open; initial run `30835115818` failed before Maven because `mvnw` lacked the Git executable bit; wrapper mode corrected and retry pending |
 | Deployment | Not started; not required for this feature phase |
 | Decisions / risks | Context is stored in a 30-minute anonymous servlet session; a different market applies its locale/currency defaults; language/currency changes are independent; FX is fictional `fx-demo-v1`; formal cross-feature OpenAPI/security gates remain owned by F15 |
 | Exact next action | Wait for PR #2 checks, record the result, address any actionable review feedback, and stop at the product-owner merge gate |
