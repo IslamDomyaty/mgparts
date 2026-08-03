@@ -8,15 +8,17 @@ This document is the persistent delivery handoff for MG Parts. It records approv
 
 | Item | Value |
 |---|---|
-| Active phase | Project foundation |
-| Active branch | `codex/project-foundation` |
-| Status | Foundation complete — PR open for review; Azure synchronization complete and verified |
-| Base | Freshly fetched `origin/main` at `db1832de15d7377cffc4f2dc0ea1d32bb4851f04` |
-| Pull request | [#1 — Document project foundation and Azure backlog sync](https://github.com/IslamDomyaty/mgparts/pull/1) |
-| Application code | Not started |
-| Verification | 65 unique Azure IDs; 41/41 stories with acceptance/points/priority; deterministic CSV; Azure saved all 65 rows; representative story/feature/epic fields and parent links verified; `git diff --check` passed |
-| Next action | Product owner reviews and merges PR #1, confirms continuation, then F01 starts from the updated `main` on `codex/f01-market-context` |
-| Start-next-feature gate | F01 must not start until the foundation PR is merged and the product owner confirms continuation |
+| Active phase | F01 — Market, language and currency context (US001–US003) |
+| Active branch | `codex/f01-market-context` |
+| Status | Implementation complete and verified — draft PR #2 open with green CI; awaiting review and product-owner merge approval |
+| Base | Freshly fetched `origin/main` at `9a57683c` (merged foundation PR #1) |
+| Azure references | Feature F01 / ID 9; US001–US003 / IDs 26–28 |
+| Pull request | Draft PR [#2](https://github.com/IslamDomyaty/mgparts/pull/2); implementation commit `75a5465` |
+| Application code | Runnable Java 26 / Spring Boot 4.1 modular shell with persistent market/language/currency context, deterministic FX preview, bilingual UI and context API |
+| Verification | `mvn.cmd -B -ntp clean verify` passed after the runtime dependency correction: 16 unit/contract tests and 7 Spring MVC integration tests; packaged JAR startup smoke passed; rendered browser checks passed for Arabic RTL, English LTR, currency persistence and GB market defaults; `git diff --check` passed; GitHub Actions run `30836306239` passed |
+| Deployment state | Not deployed; Cloud Run/Neon delivery remains a later phase |
+| Next action | Review draft PR #2, address any actionable feedback, and wait for product-owner approval/merge; do not start F02 before explicit continuation |
+| Start-next-feature gate | F02 must not start until the F01 pull request is merged and the product owner explicitly confirms continuation |
 
 ## Approved product decisions
 
@@ -99,8 +101,8 @@ Each feature ends with local verification, a pushed feature branch, a pull reque
 
 | Order | Feature / stories | Branch | Complete working increment | Dependencies | Status |
 |---:|---|---|---|---|---|
-| 0 | Project foundation | `codex/project-foundation` | Approved architecture, plan/handoff, repo guidance, synchronized backlog | None | Awaiting review and merge |
-| 1 | F01 / US001–US003 | `codex/f01-market-context` | Runnable store shell with persistent market, language, and display-currency context | Foundation | Waiting |
+| 0 | Project foundation | `codex/project-foundation` | Approved architecture, plan/handoff, repo guidance, synchronized backlog | None | Complete — PR #1 merged |
+| 1 | F01 / US001–US003 | `codex/f01-market-context` | Runnable store shell with persistent market, language, and display-currency context | Foundation | Draft PR #2 open — CI green, review pending |
 | 2 | F02 / US004–US005 | `codex/f02-rtl-accessible-storefront` | Responsive, keyboard-usable English/Arabic shell with correct RTL behavior | F01 | Waiting |
 | 3 | F15 / US036–US037 | `codex/f15-api-security-contracts` | OpenAPI/error/security/privacy baseline protecting later endpoints | F01 | Waiting |
 | 4 | F03 / US006–US007 | `codex/f03-vehicle-context` | Persistent synthetic model/year/engine selector and safe context changes | F01, F15 | Waiting |
@@ -117,6 +119,20 @@ Each feature ends with local verification, a pushed feature branch, a pull reque
 | 15 | F16 / US038–US039 | `codex/f16-functional-quality-gates` | CI unit/integration/contract suites and four-context end-to-end journeys | Functional features | Waiting |
 | 16 | F07 / US015–US017 | `codex/f07-knowledge-retrieval` | Versioned bilingual corpus, filtered retrieval, citations, and golden dataset | F13, F15 | Waiting |
 | 17 | F17 / US040–US041 | `codex/f17-nfr-ai-evaluation` | Accessibility/performance/security gates and reproducible RAG/agent evaluation | F07, F14, F16 | Waiting |
+
+## F01 execution record
+
+| Item | Value |
+|---|---|
+| Started | 2026-08-03 |
+| Branch / base | `codex/f01-market-context` from `origin/main` at `9a57683c` |
+| Azure scope | F01 / ID 9; US001 / ID 26; US002 / ID 27; US003 / ID 28 |
+| Story phase | US001–US003 implementation complete; negative cases, stable test IDs, event diagnostics and context OpenAPI included |
+| Tests | `mvn.cmd -B -ntp clean verify` passed on Java 26 after the runtime dependency correction: 16 unit/contract plus 7 integration tests; packaged JAR startup and browser-rendered state changes also verified |
+| Pull request / CI | Implementation commit `75a5465` pushed; draft PR [#2](https://github.com/IslamDomyaty/mgparts/pull/2) open; wrapper-mode fix commit `15ad3e5` is green; runtime YAML dependency fix commit `9e1502e` corrected normal application startup and GitHub Actions run `30836306239` passed |
+| Deployment | Not started; not required for this feature phase |
+| Decisions / risks | Context is stored in a 30-minute anonymous servlet session; a different market applies its locale/currency defaults; language/currency changes are independent; FX is fictional `fx-demo-v1`; formal cross-feature OpenAPI/security gates remain owned by F15 |
+| Exact next action | Review draft PR #2, address any actionable feedback, and wait for product-owner approval/merge; F02 remains gated on merge plus explicit continuation |
 
 ## Feature execution template
 

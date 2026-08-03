@@ -2,6 +2,30 @@
 
 This repository contains the requirements, delivery plan, and implementation of an unofficial educational MG spare-parts demonstration serving synthetic Egypt and United Kingdom scenarios.
 
+## Current implementation
+
+F01 provides a runnable Java 26 / Spring Boot 4.1 application shell with:
+
+- explicit Egypt (`EG`) and United Kingdom (`GB`) market context;
+- Arabic (`ar`) and English (`en`) document language and direction;
+- EGP, GBP, USD, and EUR display-currency selection;
+- anonymous-session persistence with deterministic market defaults;
+- a clearly labeled fictional FX preview using integer minor units and one rounding boundary;
+- stable context APIs, correlation IDs, diagnostic events, bilingual UI copy, and negative-case tests.
+
+No real orders, payments, customer data, official catalog content, or live FX data are used.
+
+## Run locally
+
+Prerequisites are Java 26 and network access for the first Maven Wrapper dependency download.
+
+```powershell
+.\mvnw.cmd verify
+.\mvnw.cmd spring-boot:run
+```
+
+Open `http://localhost:8080/`. The context API is available at `GET /api/v1/context`, context changes use `PUT /api/v1/context`, and the deterministic preview is available at `GET /api/v1/context/quote?baseMinor=10000`. The current contract is versioned in [`src/main/resources/openapi/mg-parts-api.yaml`](src/main/resources/openapi/mg-parts-api.yaml); F15 will add the complete contract-validation and security baseline.
+
 ## Recommendation
 
 Use Skoda-Parts.com as a **behavioral benchmark**, not as a close replica. A replica would reproduce legacy design choices and narrow the learning value. The proposed MG Parts MVP preserves the useful commerce patterns—vehicle-led browsing, part-number search, compatibility data, product alternatives, cart, and checkout—while adding multilingual, multi-market, deterministic-data, API, observability, and RAG-ready capabilities that are much more valuable for Agentic AI testing.

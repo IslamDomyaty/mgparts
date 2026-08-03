@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: mg-parts-lab
+  thymeleaf:
+    cache: true
+
+server:
+  error:
+    include-binding-errors: never
+    include-exception: false
+    include-message: never
+    include-stacktrace: never
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      timeout: 30m
+      tracking-modes: cookie
+      cookie:
+        name: MG_PARTS_LAB_SESSION
+        http-only: true
+        same-site: lax
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+info:
+  application:
+    name: MG Parts Lab
+    status: unofficial-educational-demonstration
+  fixture:
+    context: context-demo-v1
+    fx: fx-demo-v1

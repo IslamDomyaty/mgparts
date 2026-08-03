@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ar" dir="rtl"
+      xmlns:th="http://www.thymeleaf.org"
+      th:lang="${context.language.code}"
+      th:dir="${context.language.direction}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" th:content="#{meta.description}">
+  <title th:text="#{meta.title}">MG Parts Lab</title>
+  <link rel="stylesheet" th:href="@{/css/storefront.css}">
+</head>
+<body>
+<a class="skip-link" href="#main-content" th:text="#{skip.content}">Skip to content</a>
+
+<aside class="demo-banner" aria-labelledby="demo-notice-title" data-testid="demo-notice">
+  <strong id="demo-notice-title" th:text="#{demo.notice.title}">Unofficial educational demonstration</strong>
+  <span th:text="#{demo.notice.body}">No real orders or payments. All data is fictional.</span>
+</aside>
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="MG Parts Lab">
+    <span class="brand-mark" aria-hidden="true">MGL</span>
+    <span>
+      <span class="brand-kicker" th:text="#{brand.kicker}">Workshop catalog</span>
+      <span class="brand-name" th:text="#{brand.name}">MG Parts Lab</span>
+    </span>
+  </a>
+
+  <section class="context-bar" th:attr="aria-label=#{context.controls.label}">
+    <form action="/context/market" method="post" class="context-control">
+      <input type="hidden" name="returnTo" th:value="${returnTo}">
+      <label for="market-select" th:text="#{selector.market}">Market</label>
+      <div class="select-action">
+        <select id="market-select" name="market" data-testid="market-select">
+          <option th:each="option : ${marketOptions}"
+                  th:value="${option.code}"
+                  th:text="${option.label}"
+                  th:selected="${option.code == context.market.code}">Egypt</option>
+        </select>
+        <button type="submit" data-testid="market-apply" th:text="#{action.apply}">Apply</button>
+      </div>
+    </form>
+
+    <form action="/context/language" method="post" class="context-control">
+      <input type="hidden" name="returnTo" th:value="${returnTo}">
+      <label for="language-select" th:text="#{selector.language}">Language</label>
+      <div class="select-action">
+        <select id="language-select" name="locale" data-testid="language-select">
+          <option th:each="option : ${languageOptions}"
+                  th:value="${option.code}"
+                  th:text="${option.label}"
+                  th:selected="${option.code == context.language.code}">Arabic</option>
+        </select>
+        <button type="submit" data-testid="language-apply" th:text="#{action.apply}">Apply</button>
+      </div>
+    </form>
+
+    <form action="/context/currency" method="post" class="context-control">
+      <input type="hidden" name="returnTo" th:value="${returnTo}">
+      <label for="currency-select" th:text="#{selector.currency}">Display currency</label>
+      <div class="select-action">
+        <select id="currency-select" name="currency" data-testid="currency-select">
+          <option th:each="option : ${currencyOptions}"
+                  th:value="${option.code}"
+                  th:text="${option.label}"
+                  th:selected="${option.code == context.displayCurrency.code}">EGP</option>
+        </select>
+        <button type="submit" data-testid="currency-apply" th:text="#{action.apply}">Apply</button>
+      </div>
+    </form>
+  </section>
+</header>
+
+<main id="main-content">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow" th:text="#{hero.eyebrow}">Built for deliberate testing</p>
+      <h1 id="hero-title" th:text="#{hero.title}">A precise parts-learning workspace.</h1>
+      <p class="hero-summary" th:text="#{hero.summary}">
+        Explore a synthetic bilingual catalog context without real commerce or customer data.
+      </p>
+      <div class="phase-chip" data-testid="feature-status">
+        <span aria-hidden="true"></span>
+        <span th:text="#{hero.phase}">F01 context foundation is active</span>
+      </div>
+    </div>
+    <div class="hero-instrument" aria-hidden="true">
+      <span class="instrument-ring ring-one"></span>
+      <span class="instrument-ring ring-two"></span>
+      <span class="instrument-axis axis-one"></span>
+      <span class="instrument-axis axis-two"></span>
+      <span class="instrument-core">01</span>
+    </div>
+  </section>
+
+  <section class="dashboard-grid" th:attr="aria-label=#{context.summary.label}">
+    <article class="panel context-panel" data-testid="active-context">
+      <div class="panel-heading">
+        <p class="eyebrow" th:text="#{context.card.eyebrow}">Active workshop context</p>
+        <h2 th:text="#{context.card.title}">Your session is explicit</h2>
+      </div>
+      <dl class="context-facts">
+        <div>
+          <dt th:text="#{selector.market}">Market</dt>
+          <dd><bdi dir="ltr" th:text="${context.market.code}">EG</bdi></dd>
+        </div>
+        <div>
+          <dt th:text="#{selector.language}">Language</dt>
+          <dd><bdi dir="ltr" th:text="${context.language.code}">ar</bdi></dd>
+        </div>
+        <div>
+          <dt th:text="#{context.base.currency}">Base currency</dt>
+          <dd><bdi dir="ltr" th:text="${context.market.baseCurrency.code}">EGP</bdi></dd>
+        </div>
+        <div>
+          <dt th:text="#{selector.currency}">Display currency</dt>
+          <dd><bdi dir="ltr" th:text="${context.displayCurrency.code}">EGP</bdi></dd>
+        </div>
+      </dl>
+      <p class="panel-note" th:text="#{context.card.note}">
+        This context persists in the anonymous session. Currency never changes market rules.
+      </p>
+    </article>
+
+    <article class="panel quote-panel" data-testid="demonstration-quote">
+      <div class="panel-heading">
+        <p class="eyebrow" th:text="#{quote.card.eyebrow}">Deterministic fixture</p>
+        <h2 th:text="#{quote.card.title}">Demonstration FX preview</h2>
+      </div>
+      <div class="quote-route">
+        <div>
+          <span th:text="#{quote.base}">Base</span>
+          <strong><bdi dir="ltr" th:text="${quote.baseAmount}">EGP 100.00</bdi></strong>
+        </div>
+        <span class="quote-arrow" aria-hidden="true">→</span>
+        <div>
+          <span th:text="#{quote.display}">Display</span>
+          <strong><bdi dir="ltr" th:text="${quote.displayAmount}">EGP 100.00</bdi></strong>
+        </div>
+      </div>
+      <dl class="quote-details">
+        <div>
+          <dt th:text="#{quote.snapshot}">FX snapshot</dt>
+          <dd><bdi dir="ltr" th:text="${quote.snapshotId}">fx-demo-v1-EGP-EGP</bdi></dd>
+        </div>
+        <div>
+          <dt th:text="#{quote.rate}">Fixed rate</dt>
+          <dd><bdi dir="ltr" th:text="${quote.rate}">1.000000</bdi></dd>
+        </div>
+        <div>
+          <dt th:text="#{quote.rounding}">Rounding</dt>
+          <dd><bdi dir="ltr" th:text="${quote.roundingMethod}">HALF_UP_AT_DISPLAY_MINOR_UNIT</bdi></dd>
+        </div>
+      </dl>
+      <p class="data-warning" th:text="#{quote.warning}">
+        Fictional test rate. It is not financial or purchasing guidance.
+      </p>
+    </article>
+  </section>
+
+  <section class="roadmap" aria-labelledby="roadmap-title">
+    <div>
+      <p class="eyebrow" th:text="#{roadmap.eyebrow}">Modular delivery</p>
+      <h2 id="roadmap-title" th:text="#{roadmap.title}">The shell is ready for the catalog journey.</h2>
+    </div>
+    <ol>
+      <li class="is-active">
+        <span>01</span>
+        <strong th:text="#{roadmap.context}">Context</strong>
+      </li>
+      <li>
+        <span>02</span>
+        <strong th:text="#{roadmap.vehicle}">Vehicle</strong>
+      </li>
+      <li>
+        <span>03</span>
+        <strong th:text="#{roadmap.catalog}">Catalog</strong>
+      </li>
+      <li>
+        <span>04</span>
+        <strong th:text="#{roadmap.checkout}">Demo COD</strong>
+      </li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <p th:text="#{footer.notice}">Unofficial learning project. No affiliation is claimed.</p>
+  <p><bdi dir="ltr">context-demo-v1 · fx-demo-v1</bdi></p>
+</footer>
+</body>
+</html>
