@@ -65,11 +65,36 @@ Example fields, not a prescribed JSON naming convention:
 
 Rates should use decimal strings or fixed-precision decimals. Monetary values use integer minor units.
 
+## F01 implemented context and conversion contract
+
+The market-context shell uses an anonymous servlet session with a 30-minute inactivity timeout. The initial context is Egypt, Arabic and EGP. A change to a different market applies that market's default language and display currency (`EG` → `ar`/`EGP`; `GB` → `en`/`GBP`). Re-selecting the already active market is idempotent and preserves explicit language/currency choices. Language-only and currency-only changes preserve every other context field.
+
+Context updates use stable codes only: market `EG`/`GB`, locale `ar`/`en` and currency `EGP`/`GBP`/`USD`/`EUR`. Unsupported or free-text values produce a stable `CONTEXT_*_UNSUPPORTED` error. A `context.changed` event records the previous and active context, changed fields, schema and fixture versions, timestamp, correlation ID and causation ID so later vehicle/cart modules can revalidate dependent state without coupling to the web adapter.
+
+F01's FX values are fictional deterministic fixtures, not financial data:
+
+| Base | EGP | GBP | USD | EUR |
+|---|---:|---:|---:|---:|
+| EGP | `1.000000` | `0.015873` | `0.020000` | `0.018500` |
+| GBP | `63.000000` | `1.000000` | `1.260000` | `1.165000` |
+
+The implemented conversion boundary is:
+
+```text
+baseMajor = baseMinor / 10^baseCurrencyMinorDigits
+unroundedDisplayMajor = baseMajor × fixedPrecisionRate
+displayMinor = HALF_UP(unroundedDisplayMajor × 10^displayCurrencyMinorDigits)
+```
+
+No intermediate monetary value is rounded and binary floating point is not used. Quote responses expose the base amount/currency, `fx-demo-v1` snapshot ID and decimal-string rate, display amount/currency, `HALF_UP_AT_DISPLAY_MINOR_UNIT` method and the demonstration-data flag. The preview endpoint accepts `baseMinor` from 0 through 1,000,000,000; later product/cart features will own real quote composition from fixture prices.
+
 ## API capability map
 
 | Method/path pattern | Purpose | Important behavior |
 |---|---|---|
-| `GET /api/v1/context` | Markets, locales and currencies | Returns defaults and active configuration versions. |
+| `GET /api/v1/context` | Markets, locales and currencies | Returns active session context, explicit options, fixture/rounding configuration and a labeled deterministic preview. |
+| `PUT /api/v1/context` | Change active context | Accepts any explicit subset of market, locale and currency; market changes apply documented defaults before explicit overrides. |
+| `GET /api/v1/context/quote` | Demonstration FX preview | Converts a bounded base-minor-unit value using the active market base and display currency plus the versioned fictional FX table. |
 | `GET /api/v1/vehicles` | Vehicle selector data | Filterable by market, model and year. |
 | `GET /api/v1/categories` | Category tree | Supports vehicle and locale context. |
 | `GET /api/v1/products` | Browse/search | Query, vehicle, category, filters, sort, pagination and diagnostics flag. |
@@ -109,4 +134,3 @@ Rates should use decimal strings or fixed-precision decimals. Monetary values us
 - Logs mask contact/address data and idempotency secrets.
 - Knowledge chunks must not contain personal data or copied proprietary catalog content without permission.
 - Reset endpoints and fault controls are disabled outside non-production environments.
-

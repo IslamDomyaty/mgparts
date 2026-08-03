@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ar" dir="rtl"
+      xmlns:th="http://www.thymeleaf.org"
+      th:lang="${context.language.code}"
+      th:dir="${context.language.direction}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" th:content="#{meta.description}">
+  <title th:text="#{error.page.title}">Context could not be changed</title>
+  <link rel="stylesheet" th:href="@{/css/storefront.css}">
+</head>
+<body>
+<aside class="demo-banner" aria-labelledby="demo-notice-title" data-testid="demo-notice">
+  <strong id="demo-notice-title" th:text="#{demo.notice.title}">Unofficial educational demonstration</strong>
+  <span th:text="#{demo.notice.body}">No real orders or payments. All data is fictional.</span>
+</aside>
+<main id="main-content">
+  <section class="panel error-panel" aria-labelledby="error-title" data-testid="context-error">
+    <p class="eyebrow"><bdi dir="ltr" th:text="${errorCode}">CONTEXT_INPUT_INVALID</bdi></p>
+    <h1 id="error-title" th:text="#{error.page.heading}">That context choice is not supported.</h1>
+    <p class="hero-summary" th:text="${errorMessage}">Choose one of the available values.</p>
+    <a class="recovery-link" href="/" th:text="#{error.page.recovery}">Return to the storefront</a>
+  </section>
+</main>
+</body>
+</html>

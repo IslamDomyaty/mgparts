@@ -1,0 +1,253 @@
+openapi: 3.1.0
+info:
+  title: MG Parts Lab API
+  version: 0.1.0
+  description: >-
+    Unofficial educational demonstration API. All context, FX and quote values
+    are synthetic and no real commerce is performed.
+servers:
+  - url: /
+paths:
+  /api/v1/context:
+    get:
+      operationId: getContext
+      summary: Get the active anonymous market context
+      responses:
+        "200":
+          description: Active context, supported options and deterministic preview
+          headers:
+            X-Correlation-ID:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContextResponse"
+    put:
+      operationId: updateContext
+      summary: Change one or more explicit context fields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContextUpdateRequest"
+      responses:
+        "200":
+          description: Updated active context
+          headers:
+            X-Correlation-ID:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContextResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /api/v1/context/quote:
+    get:
+      operationId: getDemonstrationQuote
+      summary: Convert a bounded minor-unit amount with fictional fixture FX
+      parameters:
+        - name: baseMinor
+          in: query
+          required: false
+          description: Active-market base amount in integer minor units
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            maximum: 1000000000
+            default: 10000
+      responses:
+        "200":
+          description: Deterministic demonstration quote
+          headers:
+            X-Correlation-ID:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DemonstrationQuote"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+components:
+  headers:
+    CorrelationId:
+      description: Safe request correlation identifier
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Invalid or unsupported input
+      headers:
+        X-Correlation-ID:
+          $ref: "#/components/headers/CorrelationId"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+  schemas:
+    ContextUpdateRequest:
+      type: object
+      minProperties: 1
+      additionalProperties: false
+      properties:
+        market:
+          $ref: "#/components/schemas/MarketCode"
+        locale:
+          $ref: "#/components/schemas/LocaleCode"
+        currency:
+          $ref: "#/components/schemas/CurrencyCode"
+    ContextResponse:
+      type: object
+      required:
+        - active
+        - markets
+        - locales
+        - displayCurrencies
+        - configuration
+        - demonstrationQuote
+      properties:
+        active:
+          $ref: "#/components/schemas/ActiveContext"
+        markets:
+          type: array
+          items:
+            $ref: "#/components/schemas/MarketOption"
+        locales:
+          type: array
+          items:
+            $ref: "#/components/schemas/LocaleOption"
+        displayCurrencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/CurrencyCode"
+        configuration:
+          $ref: "#/components/schemas/ContextConfiguration"
+        demonstrationQuote:
+          $ref: "#/components/schemas/DemonstrationQuote"
+    ActiveContext:
+      type: object
+      required: [market, locale, direction, baseCurrency, displayCurrency]
+      properties:
+        market:
+          $ref: "#/components/schemas/MarketCode"
+        locale:
+          $ref: "#/components/schemas/LocaleCode"
+        direction:
+          $ref: "#/components/schemas/Direction"
+        baseCurrency:
+          $ref: "#/components/schemas/CurrencyCode"
+        displayCurrency:
+          $ref: "#/components/schemas/CurrencyCode"
+    MarketOption:
+      type: object
+      required: [code, defaultLocale, baseCurrency, defaultDisplayCurrency]
+      properties:
+        code:
+          $ref: "#/components/schemas/MarketCode"
+        defaultLocale:
+          $ref: "#/components/schemas/LocaleCode"
+        baseCurrency:
+          $ref: "#/components/schemas/CurrencyCode"
+        defaultDisplayCurrency:
+          $ref: "#/components/schemas/CurrencyCode"
+    LocaleOption:
+      type: object
+      required: [code, direction]
+      properties:
+        code:
+          $ref: "#/components/schemas/LocaleCode"
+        direction:
+          $ref: "#/components/schemas/Direction"
+    ContextConfiguration:
+      type: object
+      required:
+        - contextFixtureVersion
+        - fxFixtureVersion
+        - roundingMethod
+        - demonstrationData
+      properties:
+        contextFixtureVersion:
+          const: context-demo-v1
+        fxFixtureVersion:
+          const: fx-demo-v1
+        roundingMethod:
+          const: HALF_UP_AT_DISPLAY_MINOR_UNIT
+        demonstrationData:
+          const: true
+    DemonstrationQuote:
+      type: object
+      required:
+        - quoteVersion
+        - baseAmount
+        - fxSnapshot
+        - displayAmount
+        - roundingMethod
+        - demonstrationData
+      properties:
+        quoteVersion:
+          type: string
+        baseAmount:
+          $ref: "#/components/schemas/MoneyAmount"
+        fxSnapshot:
+          $ref: "#/components/schemas/FxSnapshot"
+        displayAmount:
+          $ref: "#/components/schemas/MoneyAmount"
+        roundingMethod:
+          const: HALF_UP_AT_DISPLAY_MINOR_UNIT
+        demonstrationData:
+          const: true
+    MoneyAmount:
+      type: object
+      required: [minor, currency]
+      properties:
+        minor:
+          type: integer
+          format: int64
+          minimum: 0
+        currency:
+          $ref: "#/components/schemas/CurrencyCode"
+    FxSnapshot:
+      type: object
+      required: [id, rate]
+      properties:
+        id:
+          type: string
+        rate:
+          type: string
+          pattern: "^[0-9]+\\.[0-9]{6}$"
+    ApiError:
+      type: object
+      required: [code, message, correlationId, fieldErrors]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        correlationId:
+          type: string
+        fieldErrors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApiFieldError"
+    ApiFieldError:
+      type: object
+      required: [field, code]
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+    MarketCode:
+      type: string
+      enum: [EG, GB]
+    LocaleCode:
+      type: string
+      enum: [ar, en]
+    CurrencyCode:
+      type: string
+      enum: [EGP, GBP, USD, EUR]
+    Direction:
+      type: string
+      enum: [rtl, ltr]
