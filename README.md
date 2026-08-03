@@ -40,7 +40,7 @@ Use Skoda-Parts.com as a **behavioral benchmark**, not as a close replica. A rep
 - Process: Agile (converted from Basic on 2026-08-03)
 - Local import backup: [azure-devops/backlog-import.csv](azure-devops/backlog-import.csv)
 
-Azure work items `2` through `66` contain the complete MVP set: 7 Epics, 17 Features and 41 User Stories. The intended parent reference is present in every child description and the complete hierarchy is preserved in the local backlog; the `F01` to `E01` Azure parent link was also validated as an end-to-end sample. See the implementation-status document for the ID map and remaining hierarchy-linking note.
+Azure work items `2` through `66` contain the complete MVP set: 7 Epics, 17 Features and 41 User Stories. All Feature-to-Epic and Story-to-Feature parent relations are materialized in Azure. Acceptance Criteria, Story Points, priorities, requirements, area/iteration paths and tags are synchronized from the repository; see the implementation-status document for the live verification record and ID map.
 
 The work-item titles carry stable BA references (`E01`, `F01`, `US001`, and so on). These references are intentionally separate from Azure work-item IDs and remain stable if items are moved or recreated.
 

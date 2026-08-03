@@ -86,6 +86,34 @@ function Get-AzureId {
     throw "Unsupported reference '$Reference'."
 }
 
+function Get-FeaturePriority {
+    param([Parameter(Mandatory)][string]$FeatureReference)
+
+    $priorities = @($featureToStories[$FeatureReference] | ForEach-Object {
+        $storyMetadata[$_].Priority
+    })
+
+    if ($priorities.Count -eq 0) {
+        throw "Feature '$FeatureReference' has no child-story priorities."
+    }
+
+    return ($priorities | Measure-Object -Minimum).Minimum
+}
+
+function Get-EpicPriority {
+    param([Parameter(Mandatory)][string]$EpicReference)
+
+    $priorities = @($epicToFeatures[$EpicReference] | ForEach-Object {
+        Get-FeaturePriority -FeatureReference $_
+    })
+
+    if ($priorities.Count -eq 0) {
+        throw "Epic '$EpicReference' has no descendant priorities."
+    }
+
+    return ($priorities | Measure-Object -Minimum).Minimum
+}
+
 function New-SyncRow {
     param(
         [Parameter(Mandatory)][string]$Reference,
@@ -135,11 +163,13 @@ $rows = [System.Collections.Generic.List[object]]::new()
 
 foreach ($epicReference in $epicToFeatures.Keys) {
     $epic = $sourceByReference[$epicReference]
-    $rows.Add((New-SyncRow -Reference $epicReference -Title1 $epic.Title))
+    $epicPriority = Get-EpicPriority -EpicReference $epicReference
+    $rows.Add((New-SyncRow -Reference $epicReference -Title1 $epic.Title -Priority $epicPriority))
 
     foreach ($featureReference in $epicToFeatures[$epicReference]) {
         $feature = $sourceByReference[$featureReference]
-        $rows.Add((New-SyncRow -Reference $featureReference -Title2 $feature.Title))
+        $featurePriority = Get-FeaturePriority -FeatureReference $featureReference
+        $rows.Add((New-SyncRow -Reference $featureReference -Title2 $feature.Title -Priority $featurePriority))
 
         foreach ($storyReference in $featureToStories[$featureReference]) {
             $story = $sourceByReference[$storyReference]

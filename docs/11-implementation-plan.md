@@ -10,12 +10,12 @@ This document is the persistent delivery handoff for MG Parts. It records approv
 |---|---|
 | Active phase | Project foundation |
 | Active branch | `codex/project-foundation` |
-| Status | Draft PR open — local foundation complete; Azure import paused for Chrome file-upload permission |
+| Status | Foundation complete — PR open for review; Azure synchronization complete and verified |
 | Base | Freshly fetched `origin/main` at `db1832de15d7377cffc4f2dc0ea1d32bb4851f04` |
-| Pull request | [#1 — Document project foundation and Azure backlog sync](https://github.com/IslamDomyaty/mgparts/pull/1) (draft) |
+| Pull request | [#1 — Document project foundation and Azure backlog sync](https://github.com/IslamDomyaty/mgparts/pull/1) |
 | Application code | Not started |
-| Local verification | 65 unique Azure IDs; 41/41 stories with acceptance/points/priority; deterministic CSV hash; `git diff --check` passed |
-| Next action | Enable Chrome extension file-URL access, import and save `azure-devops/backlog-sync.csv`, verify hierarchy/story fields, then update PR #1 |
+| Verification | 65 unique Azure IDs; 41/41 stories with acceptance/points/priority; deterministic CSV; Azure saved all 65 rows; representative story/feature/epic fields and parent links verified; `git diff --check` passed |
+| Next action | Product owner reviews and merges PR #1, confirms continuation, then F01 starts from the updated `main` on `codex/f01-market-context` |
 | Start-next-feature gate | F01 must not start until the foundation PR is merged and the product owner confirms continuation |
 
 ## Approved product decisions
@@ -99,7 +99,7 @@ Each feature ends with local verification, a pushed feature branch, a pull reque
 
 | Order | Feature / stories | Branch | Complete working increment | Dependencies | Status |
 |---:|---|---|---|---|---|
-| 0 | Project foundation | `codex/project-foundation` | Approved architecture, plan/handoff, repo guidance, synchronized backlog | None | In progress |
+| 0 | Project foundation | `codex/project-foundation` | Approved architecture, plan/handoff, repo guidance, synchronized backlog | None | Awaiting review and merge |
 | 1 | F01 / US001–US003 | `codex/f01-market-context` | Runnable store shell with persistent market, language, and display-currency context | Foundation | Waiting |
 | 2 | F02 / US004–US005 | `codex/f02-rtl-accessible-storefront` | Responsive, keyboard-usable English/Arabic shell with correct RTL behavior | F01 | Waiting |
 | 3 | F15 / US036–US037 | `codex/f15-api-security-contracts` | OpenAPI/error/security/privacy baseline protecting later endpoints | F01 | Waiting |
@@ -153,3 +153,4 @@ A future task should:
 | 2026-08-03 | Unofficial “MG Parts Lab” design with original/generic assets | Avoid unsupported trademark, catalog, and official-store claims |
 | 2026-08-03 | One branch/PR per Azure Feature plus one foundation PR | Clear review/merge boundaries and resumable story-level phases |
 | 2026-08-03 | Protected APIs before an operator UI; defer the generative assistant | Keep the first release focused on deterministic commerce and evaluation foundations |
+| 2026-08-03 | Feature/Epic priority rolls up from the most urgent descendant story | Satisfies Azure's required Priority field while keeping story priorities authoritative |
