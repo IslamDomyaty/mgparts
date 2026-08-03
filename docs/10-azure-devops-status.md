@@ -1,5 +1,14 @@
 # Azure DevOps Implementation Status
 
+## Foundation synchronization completed on 2026-08-03
+
+- The repository documentation was confirmed as the authoritative source.
+- [`azure-devops/backlog-sync.csv`](../azure-devops/backlog-sync.csv) was imported and Azure DevOps reported that all 65 work items were saved successfully in place for IDs `2`–`66`.
+- The full Epic → Feature → User Story hierarchy is materialized through Azure parent relation records.
+- All 41 stories contain the documented Acceptance Criteria, Story Points, Priority, requirements in the description, area, iteration and tags.
+- Feature Priority is derived from its most urgent child story; Epic Priority is derived from its most urgent descendant story. This supplies Azure's required field without inventing a separate priority model.
+- [`azure-devops/Generate-BacklogSync.ps1`](../azure-devops/Generate-BacklogSync.ps1) deterministically regenerates and validates the update file from the authoritative backlog documents.
+
 ## Completed on 2026-08-03
 
 - Converted the `MGParts` Azure DevOps project from the Basic process to Agile.
@@ -8,13 +17,16 @@
 - Created 17 Features (`F01`–`F17`) as Azure IDs `9`–`25`.
 - Created 41 User Stories (`US001`–`US041`) as Azure IDs `26`–`66`.
 - Left the pre-existing Azure ID `1`, `test work item`, unchanged because it is outside this scope.
-- Validated a real Azure parent relation by linking Feature `F01` (ID `9`) to Epic `E01` (ID `2`).
+- Materialized all 17 Feature-to-Epic and all 41 Story-to-Feature parent relations.
 
-## Hierarchy implementation note
+## Live verification
 
-All child items contain their intended parent reference in the description, and the authoritative hierarchy is recorded in [08-azure-boards-backlog.md](08-azure-boards-backlog.md) and [backlog-import.csv](../azure-devops/backlog-import.csv). The remaining parent relations are not yet materialized as Azure relation records because the authenticated UI does not provide a safe bulk-link operation and local file upload was unavailable in the controlled browser session.
-
-This does not affect story content, prioritization, area path, estimates or acceptance summaries. Before sprint planning, materialize the remaining parent links using Azure DevOps CSV import, the REST API or the documented parent map below.
+- Azure's import result reported `Successfully saved 65 work items`.
+- Story `US001` / ID `26` was checked with Acceptance Criteria, 5 Story Points, Priority 1, four expected tags, and Feature `F01` / ID `9` as its parent.
+- Story `US041` / ID `66` was checked with Acceptance Criteria, 13 Story Points, Priority 2, the RAG and Agentic-AI tags, and Feature `F17` / ID `25` as its parent.
+- Feature `F17` / ID `25` was checked with Priority 2 and Epic `E07` / ID `8` as its parent.
+- Epic `E01` / ID `2` was checked with its derived Priority 1.
+- The live Stories backlog displayed both the first scoped story (`US001`) and the last (`US041`) with their synchronized estimates and tags.
 
 ## Azure ID map
 
@@ -45,6 +57,6 @@ This does not affect story content, prioritization, area path, estimates or acce
 | F16 / 24 | US038–US039 / 63–64 |
 | F17 / 25 | US040–US041 / 65–66 |
 
-## Suggested completion method
+## Reproduction and repair
 
-Use [backlog-import.csv](../azure-devops/backlog-import.csv) as the source-controlled backup. If importing into the existing project, use stable references in titles to match items rather than creating duplicates, then verify that every Feature has one Epic parent and every User Story has one Feature parent.
+Use [backlog-import.csv](../azure-devops/backlog-import.csv) only as the original source-controlled creation backup. Regenerate [backlog-sync.csv](../azure-devops/backlog-sync.csv) with the PowerShell generator and use that file for later synchronization because it preserves Azure IDs and updates items in place. After any future import, repeat the hierarchy and representative-field checks above.

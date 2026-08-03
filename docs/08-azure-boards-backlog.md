@@ -11,7 +11,7 @@
 
 The Azure project was originally created with the Basic process and contained one pre-existing test Issue (`test work item`). The process was converted to Agile on 2026-08-03. The legacy Issue is not part of this backlog and should be manually retired or converted by the project owner if it appears broken.
 
-The 65 scoped work items were created as Azure IDs `2`–`66`. Feature `F01` (ID `9`) is linked to Epic `E01` (ID `2`) as a validated parent-link sample. All other intended parent references are embedded in child descriptions and are mapped in [10-azure-devops-status.md](10-azure-devops-status.md); materializing those remaining Azure relation records is a documented follow-up before sprint planning.
+The 65 scoped work items were created as Azure IDs `2`–`66`. On 2026-08-03, all 17 Feature-to-Epic and 41 Story-to-Feature parent relations were synchronized from this document and verified in Azure DevOps. The child descriptions retain the stable parent reference as additional traceability; see [10-azure-devops-status.md](10-azure-devops-status.md) for the live verification record and Azure ID map.
 
 ## Hierarchy summary
 
