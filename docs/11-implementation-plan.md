@@ -10,14 +10,14 @@ This document is the persistent delivery handoff for MG Parts. It records approv
 |---|---|
 | Active phase | F01 — Market, language and currency context (US001–US003) |
 | Active branch | `codex/f01-market-context` |
-| Status | Implementation complete and locally verified — publication in progress |
+| Status | Implementation complete and locally verified — draft PR #2 open, CI pending |
 | Base | Freshly fetched `origin/main` at `9a57683c` (merged foundation PR #1) |
 | Azure references | Feature F01 / ID 9; US001–US003 / IDs 26–28 |
-| Pull request | Pending |
+| Pull request | Draft PR [#2](https://github.com/IslamDomyaty/mgparts/pull/2); implementation commit `75a5465` |
 | Application code | Runnable Java 26 / Spring Boot 4.1 modular shell with persistent market/language/currency context, deterministic FX preview, bilingual UI and context API |
 | Verification | `.\mvnw.cmd -B -ntp verify` passed: 16 unit/contract tests and 7 Spring MVC integration tests; executable JAR packaged; rendered browser checks passed for Arabic RTL, English LTR, currency persistence and GB market defaults; `git diff --check` passed |
 | Deployment state | Not deployed; Cloud Run/Neon delivery remains a later phase |
-| Next action | Stage/commit the intentional F01 changes, push `codex/f01-market-context`, open the draft pull request, record its URL/commit, and wait for green checks/review |
+| Next action | Wait for PR #2 checks, record the result, address any review feedback, and stop at the product-owner merge gate |
 | Start-next-feature gate | F02 must not start until the F01 pull request is merged and the product owner explicitly confirms continuation |
 
 ## Approved product decisions
@@ -102,7 +102,7 @@ Each feature ends with local verification, a pushed feature branch, a pull reque
 | Order | Feature / stories | Branch | Complete working increment | Dependencies | Status |
 |---:|---|---|---|---|---|
 | 0 | Project foundation | `codex/project-foundation` | Approved architecture, plan/handoff, repo guidance, synchronized backlog | None | Complete — PR #1 merged |
-| 1 | F01 / US001–US003 | `codex/f01-market-context` | Runnable store shell with persistent market, language, and display-currency context | Foundation | Implementation complete — PR pending |
+| 1 | F01 / US001–US003 | `codex/f01-market-context` | Runnable store shell with persistent market, language, and display-currency context | Foundation | Draft PR #2 open — CI pending |
 | 2 | F02 / US004–US005 | `codex/f02-rtl-accessible-storefront` | Responsive, keyboard-usable English/Arabic shell with correct RTL behavior | F01 | Waiting |
 | 3 | F15 / US036–US037 | `codex/f15-api-security-contracts` | OpenAPI/error/security/privacy baseline protecting later endpoints | F01 | Waiting |
 | 4 | F03 / US006–US007 | `codex/f03-vehicle-context` | Persistent synthetic model/year/engine selector and safe context changes | F01, F15 | Waiting |
@@ -129,10 +129,10 @@ Each feature ends with local verification, a pushed feature branch, a pull reque
 | Azure scope | F01 / ID 9; US001 / ID 26; US002 / ID 27; US003 / ID 28 |
 | Story phase | US001–US003 implementation complete; negative cases, stable test IDs, event diagnostics and context OpenAPI included |
 | Tests | `.\mvnw.cmd -B -ntp verify` passed on Java 26: 16 unit/contract plus 7 integration tests; browser-rendered state changes also verified |
-| Pull request / CI | GitHub CLI authentication restored on 2026-08-03; commit, push and PR pending |
+| Pull request / CI | Implementation commit `75a5465` pushed; draft PR [#2](https://github.com/IslamDomyaty/mgparts/pull/2) open; CI pending for the final handoff state |
 | Deployment | Not started; not required for this feature phase |
 | Decisions / risks | Context is stored in a 30-minute anonymous servlet session; a different market applies its locale/currency defaults; language/currency changes are independent; FX is fictional `fx-demo-v1`; formal cross-feature OpenAPI/security gates remain owned by F15 |
-| Exact next action | Commit/push the verified branch, open the draft F01 pull request, record the commit/PR/check result here, and stop at the product-owner merge gate |
+| Exact next action | Wait for PR #2 checks, record the result, address any actionable review feedback, and stop at the product-owner merge gate |
 
 ## Feature execution template
 
