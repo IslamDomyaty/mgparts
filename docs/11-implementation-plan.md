@@ -10,12 +10,12 @@ This document is the persistent delivery handoff for MG Parts. It records approv
 |---|---|
 | Active phase | Project foundation |
 | Active branch | `codex/project-foundation` |
-| Status | In progress — planning documentation and Azure Boards synchronization |
+| Status | Draft PR open — local foundation complete; Azure import paused for Chrome file-upload permission |
 | Base | Freshly fetched `origin/main` at `db1832de15d7377cffc4f2dc0ea1d32bb4851f04` |
-| Pull request | Not opened yet |
+| Pull request | [#1 — Document project foundation and Azure backlog sync](https://github.com/IslamDomyaty/mgparts/pull/1) (draft) |
 | Application code | Not started |
-| Local verification | Documentation consistency checks pending |
-| Next action | Finish Azure Boards synchronization, validate the foundation artifacts, push, and open the foundation PR |
+| Local verification | 65 unique Azure IDs; 41/41 stories with acceptance/points/priority; deterministic CSV hash; `git diff --check` passed |
+| Next action | Enable Chrome extension file-URL access, import and save `azure-devops/backlog-sync.csv`, verify hierarchy/story fields, then update PR #1 |
 | Start-next-feature gate | F01 must not start until the foundation PR is merged and the product owner confirms continuation |
 
 ## Approved product decisions
